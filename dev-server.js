@@ -41,5 +41,5 @@ app.listen(devserver.port, (err) => {
     logger.trace(err);
     return;
   }
-  logger.info('Listening at http://0.0.0.0:3002');
+  logger.info('Listening at http://0.0.0.0:3000');
 });
