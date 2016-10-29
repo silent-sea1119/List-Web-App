@@ -61,19 +61,15 @@ module.exports = {
             },
             {
                 test: /(\.scss)$/,
-                loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
+                loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
             },
             {
                 test: /(\.css)$/,
-                loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[local]')
+                loader: ExtractTextPlugin.extract('style', 'css')
             }
         ]
     },
     postcss: [autoprefixer],
-    sassLoader: {
-        data: '@import "theme/_config.scss";',
-        includePaths: [path.resolve(__dirname, './')]
-    },
     plugins: _.compact([
         new HtmlWebpackPlugin({
             filename: 'index.html',
