@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import map from 'lodash/map';
 import classnames from 'classnames';
+import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 import './Home.styles.scss';
 
 class ListItemModel {
@@ -14,7 +16,8 @@ class Home extends Component {
 
   state = {
     inputValue: '',
-    listItems: []
+    listItems: [],
+    showEmojiPicker: false
   }
 
   save() {
@@ -38,12 +41,19 @@ class Home extends Component {
     this.setState({ listItems: listItems });
   }
 
+  addEmoji(emoji) {
+    const { inputValue } = this.state;
+    this.setState({ inputValue: inputValue + emoji.native });
+    this.refs.input.focus();
+  }
+
   render() {
     const { inputValue } = this.state;
     return (
       <form className="form"
             onSubmit={e => e.preventDefault()}>
         <input onChange={e => this.setState({ inputValue: e.target.value })}
+               ref="input"
                value={inputValue}
                className="input"
                placeholder="what do you need to do today?"
@@ -51,6 +61,14 @@ class Home extends Component {
         <button className="button"
                 onClick={this.save.bind(this)}>Save</button>
         {this.renderList()}
+        <div className="picker">
+          <Picker emojiSize={24}
+                  perLine={9}
+                  skin={1}
+                  set='apple'
+                  color='#24b47e'
+                  onClick={this.addEmoji.bind(this)}/>
+        </div>
       </form>
     );
   }
@@ -66,7 +84,7 @@ class Home extends Component {
 
   renderListItem(item, i) {
     return (
-      <ListItem key={i} item={item} onToggle={() => this.toggleItem(i)} />
+      <ListItem key={`${item.text}-${i}`} item={item} onToggle={() => this.toggleItem(i)} />
     );
   }
 }
