@@ -38,7 +38,15 @@ class Home extends Component {
     const { listItems } = this.state;
     const item = listItems[itemIndex];
     item.isChecked = !item.isChecked;
-    this.setState({ listItems: listItems });
+    this.setState({ listItems });
+  }
+
+  saveItem(itemIndex, newText) {
+    const { listItems } = this.state;
+    const item = listItems[itemIndex];
+    item.text = newText;
+    this.setState({ listItems });
+    this.refs.input.focus();
   }
 
   addEmoji(emoji) {
@@ -50,26 +58,30 @@ class Home extends Component {
   render() {
     const { inputValue } = this.state;
     return (
-      <form className="form"
-            onSubmit={e => e.preventDefault()}>
-        <input onChange={e => this.setState({ inputValue: e.target.value })}
-               ref="input"
-               value={inputValue}
-               className="input"
-               placeholder="what do you need to do today?"
-               autoFocus/>
-        <button className="button"
-                onClick={this.save.bind(this)}>Save</button>
+      <div>
+        <form className="form"
+              onSubmit={e => e.preventDefault()}>
+          <div className="spacer" />
+          <input onChange={e => this.setState({ inputValue: e.target.value })}
+                 ref="input"
+                 value={inputValue}
+                 className="input"
+                 placeholder="what do you need to do today?"
+                 autoFocus/>
+          <div className="spacer" />
+          <button className="button"
+                  onClick={this.save.bind(this)} />
+        </form>
         {this.renderList()}
         <div className="picker">
           <Picker emojiSize={24}
                   perLine={9}
                   skin={1}
-                  set='apple'
-                  color='#24b47e'
+                  set="apple"
+                  color="#24b47e"
                   onClick={this.addEmoji.bind(this)}/>
         </div>
-      </form>
+      </div>
     );
   }
 
@@ -84,7 +96,10 @@ class Home extends Component {
 
   renderListItem(item, i) {
     return (
-      <ListItem key={`${item.text}-${i}`} item={item} onToggle={() => this.toggleItem(i)} />
+      <ListItem key={`${item.text}-${i}`}
+                item={item}
+                onToggle={() => this.toggleItem(i)}
+                onSave={(newText) => this.saveItem(i, newText)} />
     );
   }
 }
@@ -93,7 +108,8 @@ class ListItem extends Component {
 
   static propTypes = {
     item: PropTypes.instanceOf(ListItemModel).isRequired,
-    onToggle: PropTypes.func.isRequired
+    onToggle: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -103,18 +119,29 @@ class ListItem extends Component {
     };
   }
 
+  handleSave(e) {
+    e.preventDefault();
+    const { inputValue } = this.state;
+    const { onSave } = this.props;
+    onSave(inputValue);
+  }
+
   render() {
-    const { item, onToggle } = this.props;
+    const { item, onToggle, onSave } = this.props;
     const { inputValue } = this.state;
     return (
       <li className={classnames('listItem', item.isChecked && 'strikethrough')}>
-        <input className="inputItem"
-               value={inputValue}
-               onChange={e => this.setState({ inputValue: e.target.value })} />
-        <input type="checkbox"
-               className="checkbox"
-               checked={item.isChecked}
-               onChange={onToggle} />
+        <form className="listItemForm"
+              onSubmit={this.handleSave.bind(this)}>
+          <input className="inputItem"
+                 value={inputValue}
+                 onChange={e => this.setState({ inputValue: e.target.value })}/>
+          <input type="checkbox"
+                 className="checkbox"
+                 checked={item.isChecked}
+                 onChange={onToggle}/>
+          <button className="button" />
+        </form>
       </li>
     );
   }
