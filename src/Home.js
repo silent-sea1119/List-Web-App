@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import map from 'lodash/map';
 import classnames from 'classnames';
 import { Picker } from 'emoji-mart';
@@ -13,6 +14,10 @@ class ListItemModel {
 }
 
 class Home extends Component {
+
+  static propTypes = {
+    initialListItems: PropTypes.arrayOf(ListItemModel).isRequired
+  }
 
   state = {
     inputValue: '',
@@ -61,25 +66,26 @@ class Home extends Component {
       <div>
         <form className="form"
               onSubmit={e => e.preventDefault()}>
-          <div className="spacer" />
           <input onChange={e => this.setState({ inputValue: e.target.value })}
                  ref="input"
                  value={inputValue}
                  className="input"
                  placeholder="what do you need to do today?"
                  autoFocus/>
-          <div className="spacer" />
           <button className="button"
                   onClick={this.save.bind(this)} />
         </form>
         {this.renderList()}
-        <div className="picker">
-          <Picker emojiSize={24}
-                  perLine={9}
-                  skin={1}
-                  set="apple"
-                  color="#24b47e"
-                  onClick={this.addEmoji.bind(this)}/>
+        <div className="emoji">
+          <h1 className="emojiHeader">😃</h1>
+          <div className="picker">
+            <Picker emojiSize={24}
+                    perLine={9}
+                    skin={1}
+                    set="apple"
+                    color="#24b47e"
+                    onClick={this.addEmoji.bind(this)}/>
+          </div>
         </div>
       </div>
     );
@@ -147,4 +153,10 @@ class ListItem extends Component {
   }
 }
 
-export default Home;
+export default connect(
+  (state) => {
+    return {
+      initialListItems: state.listItems
+    };
+  }
+)(Home);

@@ -1,5 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './Home.js';
+import { Provider } from 'react-redux';
+import Home from './Home';
+import store from './store';
 
-ReactDOM.render(<Home/>, document.getElementById('react-main'));
+function RootComponent() {
+  return (
+    <Provider store={store}>
+      <Home/>
+    </Provider>
+  );
+}
+
+ReactDOM.render(<RootComponent />, document.getElementById('react-main'));
