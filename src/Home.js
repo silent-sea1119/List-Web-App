@@ -142,15 +142,10 @@ class ListItem extends Component {
           <input className="inputItem"
                  value={inputValue}
                  onChange={e => this.setState({ inputValue: e.target.value })}/>
-          {/* <input type="checkbox"
-                 className="checkbox"
-                 checked={item.isChecked}
-                 onChange={onToggle}/> */}
           <div className="optionsContainer">
-            <div className="innerCircleGreen" />
-            <div className="innerCircleGreen2" />
+            <div className="innerCircleGreen" onClick={onToggle} />
+            <div className="innerCircle2" />
           </div>
-          <button className="button" />
         </form>
       </li>
     );
