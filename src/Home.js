@@ -7,6 +7,9 @@ import 'emoji-mart/css/emoji-mart.css';
 import './Home.styles.scss';
 import { saveListItems, loadListItems } from './actions';
 import ListItemModel from './ListItemModel';
+import moment from 'moment';
+
+let now = moment();
 
 class Home extends Component {
 
@@ -82,6 +85,10 @@ class Home extends Component {
                   onClick={this.save.bind(this)} />
         </form>
         {this.renderList()}
+        <div className="lineContainer">
+          <div className="line" />
+        </div>
+        <h2 className="date">{now.format('dddd, MMMM DD')}</h2>
         <div className="emoji">
           <h1 className="emojiHeader">😃</h1>
           <div className="picker">
@@ -151,6 +158,7 @@ class ListItem extends Component {
                  onChange={e => this.setState({ inputValue: e.target.value })}/>
           <div className="optionsContainer">
             <div className="innerCircleGreen" onClick={onToggle} />
+            <div className="innerCircle2" />
             <div className="innerCircle2" />
           </div>
         </form>
