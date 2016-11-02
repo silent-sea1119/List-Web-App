@@ -5,53 +5,59 @@ import classnames from 'classnames';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 import './Home.styles.scss';
-
-class ListItemModel {
-  constructor(text, isChecked) {
-    this.text = text;
-    this.isChecked = isChecked;
-  }
-}
+import { saveListItems, loadListItems } from './actions';
+import ListItemModel from './ListItemModel';
 
 class Home extends Component {
 
   static propTypes = {
-    initialListItems: PropTypes.arrayOf(ListItemModel).isRequired
+    initialListItems: PropTypes.arrayOf(PropTypes.instanceOf(ListItemModel)).isRequired,
+    saveListItems: PropTypes.func.isRequired,
+    loadListItems: PropTypes.func.isRequired
   }
 
-  state = {
-    inputValue: '',
-    listItems: [],
-    showEmojiPicker: false
+  constructor(props) {
+    super(props);
+    props.loadListItems();
+    this.state = {
+      inputValue: '',
+      listItems: props.initialListItems,
+      showEmojiPicker: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      listItems: nextProps.initialListItems
+    });
   }
 
   save() {
     const { inputValue, listItems } = this.state;
     const newItem = new ListItemModel(inputValue, false);
-
-    if (!inputValue) {
-      return;
-    }
-
-    this.setState({
-      listItems: [newItem, ...listItems],
-      inputValue: ''
-    });
+    if (!inputValue) return;
+    this.setState({ inputValue: '' });
+    this.updateListItems([newItem, ...listItems]);
   }
 
   toggleItem(itemIndex) {
     const { listItems } = this.state;
     const item = listItems[itemIndex];
     item.isChecked = !item.isChecked;
-    this.setState({ listItems });
+    this.updateListItems(listItems);
   }
 
   saveItem(itemIndex, newText) {
     const { listItems } = this.state;
     const item = listItems[itemIndex];
     item.text = newText;
-    this.setState({ listItems });
+    this.updateListItems(listItems);
     this.refs.input.focus();
+  }
+
+  updateListItems(listItems) {
+    this.setState({ listItems });
+    this.props.saveListItems(listItems);
   }
 
   addEmoji(emoji) {
@@ -133,7 +139,7 @@ class ListItem extends Component {
   }
 
   render() {
-    const { item, onToggle, onSave } = this.props;
+    const { item, onToggle } = this.props;
     const { inputValue } = this.state;
     return (
       <li className={classnames('listItem', item.isChecked && 'strikethrough')}>
@@ -141,6 +147,7 @@ class ListItem extends Component {
               onSubmit={this.handleSave.bind(this)}>
           <input className="inputItem"
                  value={inputValue}
+                 onBlur={this.handleSave.bind(this)}
                  onChange={e => this.setState({ inputValue: e.target.value })}/>
           <div className="optionsContainer">
             <div className="innerCircleGreen" onClick={onToggle} />
@@ -156,6 +163,12 @@ export default connect(
   (state) => {
     return {
       initialListItems: state.listItems
+    };
+  },
+  (dispatch) => {
+    return {
+      saveListItems: (listItems) => dispatch(saveListItems(listItems)),
+      loadListItems: () => dispatch(loadListItems())
     };
   }
 )(Home);

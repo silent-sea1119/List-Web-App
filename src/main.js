@@ -12,4 +12,4 @@ function RootComponent() {
   );
 }
 
-ReactDOM.render(<RootComponent />, document.getElementById('react-main'));
+ReactDOM.render(<RootComponent/>, document.getElementById('react-main'));
