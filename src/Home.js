@@ -148,7 +148,7 @@ class ListItem extends Component {
   }
 
   render() {
-    const { item, onToggle } = this.props;
+    const { item, onToggle, isChecked } = this.props;
     const { inputValue } = this.state;
     return (
       <li className={classnames('listItem', item.isChecked && 'strikethrough')}>
@@ -160,9 +160,7 @@ class ListItem extends Component {
                  onChange={e => this.setState({ inputValue: e.target.value })}/>
           <div className="optionsContainer">
             <div className="innerCircleGreen" onClick={onToggle}>
-              {/* <div className={isChecked && "checked"}> */}
-                <FaCheck className="checkIcon" />
-              {/* </div> */}
+              <FaCheck className={classnames('checkInactive', item.isChecked && 'checkActive')} />
             </div>
             <div className="innerCircleRed">
               <FaClose className="deleteIcon" />

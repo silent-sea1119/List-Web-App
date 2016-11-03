@@ -121,8 +121,13 @@
   align-content: center;
   justify-content: center;
 
-  .checkIcon {
+  .checkInactive {
     fill: rgba(white, 0.6);
+    align-self: center;
+  }
+
+  .checkActive {
+    fill: white;
     align-self: center;
   }
 
@@ -130,7 +135,7 @@
     transform: rotate(360deg);
     transition: transform 0.375s ease;
 
-    .checkIcon {
+    .checkInactive {
       fill: white;
       transition: all 0.2s ease;
     }
