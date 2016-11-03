@@ -8,6 +8,8 @@ import './Home.styles.scss';
 import { saveListItems, loadListItems } from './actions';
 import ListItemModel from './ListItemModel';
 import moment from 'moment';
+import FaCheck from 'react-icons/lib/fa/check';
+import FaClose from 'react-icons/lib/fa/close';
 
 let now = moment();
 
@@ -157,9 +159,14 @@ class ListItem extends Component {
                  onBlur={this.handleSave.bind(this)}
                  onChange={e => this.setState({ inputValue: e.target.value })}/>
           <div className="optionsContainer">
-            <div className="innerCircleGreen" onClick={onToggle} />
-            <div className="innerCircle2" />
-            <div className="innerCircle2" />
+            <div className="innerCircleGreen" onClick={onToggle}>
+              {/* <div className={isChecked && "checked"}> */}
+                <FaCheck className="checkIcon" />
+              {/* </div> */}
+            </div>
+            <div className="innerCircleRed">
+              <FaClose className="deleteIcon" />
+            </div>
           </div>
         </form>
       </li>
