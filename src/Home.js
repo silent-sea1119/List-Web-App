@@ -6,7 +6,6 @@ import groupBy from 'lodash/groupBy';
 import find from 'lodash/find';
 import remove from 'lodash/remove';
 import toPairs from 'lodash/toPairs';
-import reverse from 'lodash/reverse';
 
 import classnames from 'classnames';
 import { Picker } from 'emoji-mart';
@@ -100,7 +99,9 @@ class Home extends Component {
           <button className="button"
                   onClick={this.save.bind(this)} />
         </form>
-        {this.renderList()}
+        <div className="container">
+          {this.renderList()}
+        </div>
         <div className="emoji">
           <h1 className="emojiHeader">😃</h1>
           <div className="picker">
@@ -118,16 +119,11 @@ class Home extends Component {
 
   renderList() {
     const { listItems } = this.state;
-    // now.format('dddd, MMMM DD')
     const groups = groupBy(listItems, item => item.timestamp.format('dddd, MMMM DD'));
     const pairs = toPairs(groups);
-    const ordered = reverse(pairs);
-    return map(ordered, ([timestamp, group]) => {
+    return map(pairs, ([timestamp, group]) => {
       return (
         <div key={timestamp}>
-          <div className="lineContainer">
-            <div className="line" />
-          </div>
           <h2 className="date">{timestamp}</h2>
           {this.renderGroup(group)}
         </div>

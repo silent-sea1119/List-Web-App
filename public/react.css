@@ -1,3 +1,551 @@
+.emoji-mart,
+.emoji-mart * {
+  box-sizing: border-box;
+}
+
+.emoji-mart {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  display: inline-block;
+  color: #222427;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.emoji-mart .emoji-mart-emoji {
+  padding: 6px;
+}
+
+.emoji-mart-bar:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.emoji-mart-bar:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.emoji-mart-anchors {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 6px;
+  color: #858585;
+}
+
+.emoji-mart-anchor {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  padding: 12px 4px;
+  overflow: hidden;
+  transition: color .1s ease-out;
+}
+.emoji-mart-anchor:hover,
+.emoji-mart-anchor-selected {
+  color: #464646;
+}
+
+.emoji-mart-anchor-selected .emoji-mart-anchor-bar {
+  bottom: 0;
+}
+
+.emoji-mart-anchor-bar {
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 100%; height: 3px;
+  background-color: #464646;
+}
+
+.emoji-mart-anchors i {
+  display: inline-block;
+  width: 100%;
+  max-width: 22px;
+}
+
+.emoji-mart-anchors svg {
+  fill: currentColor;
+}
+
+.emoji-mart-scroll {
+  overflow-y: scroll;
+  height: 270px;
+  padding: 0 6px 6px 6px;
+  border: solid #d9d9d9;
+  border-width: 1px 0;
+}
+
+.emoji-mart-search {
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  padding: .2em .6em;
+  margin-top: 6px;
+  border-radius: 25px;
+  border: 1px solid #d9d9d9;
+  outline: 0;
+}
+
+.emoji-mart-category .emoji-mart-emoji span {
+  z-index: 1;
+  position: relative;
+}
+
+.emoji-mart-category .emoji-mart-emoji:hover:before {
+  z-index: 0;
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: #f4f4f4;
+  border-radius: 100%;
+}
+
+.emoji-mart-category-label {
+  z-index: 2;
+  position: relative;
+  position: -webkit-sticky;
+  top: 0;
+}
+
+.emoji-mart-category-label span {
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  padding: 5px 6px;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, .95);
+}
+
+.emoji-mart-emoji {
+  position: relative;
+  display: inline-block;
+  font-size: 0;
+}
+
+.emoji-mart-no-results {
+  font-size: 14px;
+  text-align: center;
+  padding-top: 70px;
+  color: #858585;
+}
+.emoji-mart-no-results span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.emoji-mart-preview {
+  position: relative;
+  height: 70px;
+}
+
+.emoji-mart-preview-emoji,
+.emoji-mart-preview-data,
+.emoji-mart-preview-skins {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.emoji-mart-preview-emoji {
+  left: 12px;
+}
+
+.emoji-mart-preview-data {
+  left: 68px; right: 12px;
+  word-break: break-word;
+}
+
+.emoji-mart-preview-skins {
+  right: 30px;
+  text-align: right;
+}
+
+.emoji-mart-preview-name {
+  font-size: 14px;
+}
+
+.emoji-mart-preview-shortname {
+  font-size: 12px;
+  color: #888;
+}
+.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,
+.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,
+.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {
+  margin-left: .5em;
+}
+
+.emoji-mart-preview-emoticon {
+  font-size: 11px;
+  color: #bbb;
+}
+
+.emoji-mart-title span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.emoji-mart-title .emoji-mart-emoji {
+  padding: 0;
+}
+
+.emoji-mart-title-label {
+  color: #999A9C;
+  font-size: 26px;
+  font-weight: 300;
+}
+
+.emoji-mart-skin-swatches {
+  font-size: 0;
+  padding: 2px 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {
+  width: 16px;
+  padding: 0 2px;
+}
+
+.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {
+  opacity: .75;
+}
+
+.emoji-mart-skin-swatch {
+  display: inline-block;
+  width: 0;
+  vertical-align: middle;
+  transition-property: width, padding;
+  transition-duration: .125s;
+  transition-timing-function: ease-out;
+}
+
+.emoji-mart-skin-swatch:nth-child(1) { transition-delay: 0 }
+.emoji-mart-skin-swatch:nth-child(2) { transition-delay: .03s }
+.emoji-mart-skin-swatch:nth-child(3) { transition-delay: .06s }
+.emoji-mart-skin-swatch:nth-child(4) { transition-delay: .09s }
+.emoji-mart-skin-swatch:nth-child(5) { transition-delay: .12s }
+.emoji-mart-skin-swatch:nth-child(6) { transition-delay: .15s }
+
+.emoji-mart-skin-swatch-selected {
+  position: relative;
+  width: 16px;
+  padding: 0 2px;
+}
+.emoji-mart-skin-swatch-selected:after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 4px; height: 4px;
+  margin: -2px 0 0 -2px;
+  background-color: #fff;
+  border-radius: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
+.emoji-mart-skin {
+  display: inline-block;
+  width: 100%; padding-top: 100%;
+  max-width: 12px;
+  border-radius: 100%;
+}
+
+.emoji-mart-skin-tone-1 { background-color: #ffc93a }
+.emoji-mart-skin-tone-2 { background-color: #fadcbc }
+.emoji-mart-skin-tone-3 { background-color: #e0bb95 }
+.emoji-mart-skin-tone-4 { background-color: #bf8f68 }
+.emoji-mart-skin-tone-5 { background-color: #9b643d }
+.emoji-mart-skin-tone-6 { background-color: #594539 }
 .form {
+  position: fixed;
   padding: 20px;
-  background-color: pink; }
+  padding-left: 40px;
+  padding-right: 132px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: sans-serif;
+  font-weight: lighter;
+  width: 100%;
+  top: 0;
+  background-color: #f6f9fc;
+  border-width: 0 0 0.25px 0;
+  border-style: solid;
+  border-color: rgba(50, 50, 93, 0.1);
+  font-smoothing: antialiased;
+  z-index: 10; }
+
+.input {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  border: none;
+  background: none;
+  font-size: 3em;
+  color: #24b47e;
+  text-align: left;
+  min-width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+  .input::-webkit-input-placeholder {
+    opacity: 0.75; }
+  .input::-moz-placeholder {
+    opacity: 0.75; }
+  .input:-ms-input-placeholder {
+    opacity: 0.75; }
+  .input::placeholder {
+    opacity: 0.75; }
+  .input::-moz-selection {
+    background-color: rgba(36, 180, 126, 0.3); }
+  .input::selection {
+    background-color: rgba(36, 180, 126, 0.3); }
+
+.button {
+  display: none; }
+
+.list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  list-style-type: none;
+  font-size: 2em;
+  color: #24b47e;
+  width: 100%;
+  margin-top: 0;
+  padding-right: 40px;
+  padding-top: 0;
+  -webkit-font-smoothing: antialiased; }
+
+.listItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  top: 100px; }
+
+.inputItem {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  border: none;
+  background: none;
+  font-size: 1.5em;
+  color: #24b47e;
+  text-align: left;
+  min-width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+  .inputItem::-moz-selection {
+    background-color: rgba(36, 180, 126, 0.3); }
+  .inputItem::selection {
+    background-color: rgba(36, 180, 126, 0.3); }
+
+.optionsContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }
+  .optionsContainer:hover {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    position: relative;
+    width: 100px;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease; }
+    .optionsContainer:hover .innerCircleRed {
+      width: 40px;
+      height: 40px;
+      margin-left: 6px;
+      -webkit-transition: width 0.5s ease, height 0.5s ease, margin-left 0.5s ease;
+      transition: width 0.5s ease, height 0.5s ease, margin-left 0.5s ease; }
+
+.innerCircleGreen {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: center;
+      align-self: center;
+  width: 40px;
+  height: 40px;
+  background-color: #24b47e;
+  border-radius: 20px;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .innerCircleGreen .checkInactive {
+    fill: rgba(255, 255, 255, 0.6);
+    -ms-flex-item-align: center;
+        align-self: center; }
+  .innerCircleGreen .checkActive {
+    fill: white;
+    -ms-flex-item-align: center;
+        align-self: center; }
+  .innerCircleGreen:hover {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    -webkit-transition: -webkit-transform 0.375s ease;
+    transition: -webkit-transform 0.375s ease;
+    transition: transform 0.375s ease;
+    transition: transform 0.375s ease, -webkit-transform 0.375s ease; }
+    .innerCircleGreen:hover .checkInactive {
+      fill: white;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease; }
+
+.innerCircleRed {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-item-align: center;
+      align-self: center;
+  width: 0px;
+  height: 0px;
+  background-color: #FF5044;
+  border-radius: 20px;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .innerCircleRed .deleteIcon {
+    fill: rgba(255, 255, 255, 0.6);
+    -ms-flex-item-align: center;
+        align-self: center; }
+  .innerCircleRed:hover .deleteIcon {
+    fill: white;
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    -webkit-transition: fill 0.2s ease, -webkit-transform 0.375s ease;
+    transition: fill 0.2s ease, -webkit-transform 0.375s ease;
+    transition: fill 0.2s ease, transform 0.375s ease;
+    transition: fill 0.2s ease, transform 0.375s ease, -webkit-transform 0.375s ease; }
+
+.strikethrough {
+  text-decoration: line-through; }
+
+.listItemForm {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+.picker {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0; }
+
+.emoji {
+  position: fixed;
+  width: 64px;
+  height: 84px;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  margin-top: 12px;
+  margin-right: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  z-index: 20; }
+  .emoji .emojiHeader {
+    font-size: 4em;
+    margin: 0; }
+  .emoji .picker {
+    width: 0;
+    height: 0;
+    opacity: 0; }
+  .emoji:hover .picker {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 350px;
+    height: 400px;
+    opacity: 1;
+    -webkit-transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease; }
+
+.date {
+  margin-top: 40px;
+  font-size: 1.5em;
+  opacity: 0.35;
+  font-family: sans-serif;
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  font-weight: lighter;
+  font-smoothing: antialiased; }
+
+.lineContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.line {
+  width: 95%;
+  height: 1px;
+  background-color: rgba(50, 50, 93, 0.2); }

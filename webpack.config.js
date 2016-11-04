@@ -2,15 +2,10 @@
 
 const webpack = require('webpack');
 const path = require('path');
-const fs = require('fs');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const yaml = require('js-yaml');
 const _ = require('lodash');
-
-const yamlPath = path.resolve('app.yml');
-const yamlConfig = yaml.load(fs.readFileSync(yamlPath, 'utf8'));
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDev = !isProduction;
@@ -28,7 +23,7 @@ module.exports = {
         __dirname: true
     },
     output: {
-        publicPath: isProduction ? '/' : '/public/',
+        publicPath: '/',
         path: path.resolve('./public'),
         filename: 'bundle.[name].js'
     },
