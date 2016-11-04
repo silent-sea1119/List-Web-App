@@ -15,7 +15,8 @@
   border-width: 0 0 0.25px 0;
   border-style: solid;
   border-color: rgba(50,50,93,.1);
-  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  z-index: 10;
 }
 
 .input {
@@ -52,7 +53,7 @@
   width: 100%;
   margin-top: 0;
   padding-right: 40px;
-  padding-top: 120px;
+  padding-top: 0;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -197,6 +198,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  z-index: 20;
 
   .emojiHeader {
     font-size: 4em;
@@ -231,7 +233,8 @@
   height: 50px;
   text-align: center;
   font-weight: lighter;
-  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+
 }
 
 .lineContainer {
@@ -241,6 +244,6 @@
 
 .line {
   width: 95%;
-  height: 0.5px;
+  height: 1px;
   background-color: rgba(50, 50, 93, 0.2);
 }

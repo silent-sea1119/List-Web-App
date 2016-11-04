@@ -1,17 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import map from 'lodash/map';
+import groupBy from 'lodash/groupBy';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
+import toPairs from 'lodash/toPairs';
+import reverse from 'lodash/reverse';
+
 import classnames from 'classnames';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
-import './Home.styles.scss';
-import { saveListItems, loadListItems } from './actions';
-import ListItemModel from './ListItemModel';
 import moment from 'moment';
 import FaCheck from 'react-icons/lib/fa/check';
 import FaClose from 'react-icons/lib/fa/close';
+import uuid from 'uuid';
 
-let now = moment();
+import './Home.styles.scss';
+import { saveListItems, loadListItems } from './actions';
+import ListItemModel from './ListItemModel';
 
 class Home extends Component {
 
@@ -39,25 +46,32 @@ class Home extends Component {
 
   save() {
     const { inputValue, listItems } = this.state;
-    const newItem = new ListItemModel(inputValue, false);
+    const now = moment();
+    const newItem = new ListItemModel(inputValue, false, now, uuid.v4());
     if (!inputValue) return;
     this.setState({ inputValue: '' });
     this.updateListItems([newItem, ...listItems]);
   }
 
-  toggleItem(itemIndex) {
+  toggleItem(itemID) {
     const { listItems } = this.state;
-    const item = listItems[itemIndex];
+    const item = find(listItems, ({ id }) => id === itemID);
     item.isChecked = !item.isChecked;
     this.updateListItems(listItems);
   }
 
-  saveItem(itemIndex, newText) {
+  saveItem(itemID, newText) {
     const { listItems } = this.state;
-    const item = listItems[itemIndex];
+    const item = find(listItems, ({ id }) => id === itemID);
     item.text = newText;
     this.updateListItems(listItems);
     this.refs.input.focus();
+  }
+
+  deleteItem(itemID) {
+    const { listItems } = this.state;
+    remove(listItems, ({ id }) => id === itemID);
+    this.updateListItems(listItems);
   }
 
   updateListItems(listItems) {
@@ -87,10 +101,6 @@ class Home extends Component {
                   onClick={this.save.bind(this)} />
         </form>
         {this.renderList()}
-        <div className="lineContainer">
-          <div className="line" />
-        </div>
-        <h2 className="date">{now.format('dddd, MMMM DD')}</h2>
         <div className="emoji">
           <h1 className="emojiHeader">😃</h1>
           <div className="picker">
@@ -108,19 +118,39 @@ class Home extends Component {
 
   renderList() {
     const { listItems } = this.state;
+    // now.format('dddd, MMMM DD')
+    const groups = groupBy(listItems, item => item.timestamp.format('dddd, MMMM DD'));
+    const pairs = toPairs(groups);
+    const ordered = reverse(pairs);
+    return map(ordered, ([timestamp, group]) => {
+      return (
+        <div key={timestamp}>
+          <div className="lineContainer">
+            <div className="line" />
+          </div>
+          <h2 className="date">{timestamp}</h2>
+          {this.renderGroup(group)}
+        </div>
+      );
+    });
+  }
+
+  renderGroup(group) {
     return (
       <ul className="list">
-        {map(listItems, this.renderListItem.bind(this))}
+        {map(group, this.renderListItem.bind(this))}
       </ul>
     );
   }
 
-  renderListItem(item, i) {
+  renderListItem(item) {
+    const id = item.id;
     return (
-      <ListItem key={`${item.text}-${i}`}
+      <ListItem key={`${item.text}-${id}`}
                 item={item}
-                onToggle={() => this.toggleItem(i)}
-                onSave={(newText) => this.saveItem(i, newText)} />
+                onToggle={() => this.toggleItem(id)}
+                onSave={(newText) => this.saveItem(id, newText)}
+                onDelete={() => this.deleteItem(id)} />
     );
   }
 }
@@ -130,7 +160,8 @@ class ListItem extends Component {
   static propTypes = {
     item: PropTypes.instanceOf(ListItemModel).isRequired,
     onToggle: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -148,7 +179,7 @@ class ListItem extends Component {
   }
 
   render() {
-    const { item, onToggle, isChecked } = this.props;
+    const { item, onToggle, isChecked, onDelete } = this.props;
     const { inputValue } = this.state;
     return (
       <li className={classnames('listItem', item.isChecked && 'strikethrough')}>
@@ -162,7 +193,7 @@ class ListItem extends Component {
             <div className="innerCircleGreen" onClick={onToggle}>
               <FaCheck className={classnames('checkInactive', item.isChecked && 'checkActive')} />
             </div>
-            <div className="innerCircleRed">
+            <div className="innerCircleRed" onClick={onDelete}>
               <FaClose className="deleteIcon" />
             </div>
           </div>
