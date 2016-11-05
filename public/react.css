@@ -314,6 +314,9 @@
 .button {
   display: none; }
 
+.container {
+  padding: 98px 0px 0px 0px; }
+
 .list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -528,24 +531,13 @@
 
 .date {
   margin-top: 40px;
+  margin-bottom: 40px;
   font-size: 1.5em;
-  opacity: 0.35;
+  opacity: 0.15;
   font-family: sans-serif;
   width: 100%;
   height: 50px;
   text-align: center;
   font-weight: lighter;
-  font-smoothing: antialiased; }
-
-.lineContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center; }
-
-.line {
-  width: 95%;
-  height: 1px;
-  background-color: rgba(50, 50, 93, 0.2); }
+  font-smoothing: antialiased;
+  cursor: default; }
