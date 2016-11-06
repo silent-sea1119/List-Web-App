@@ -84,6 +84,12 @@ class Home extends Component {
     this.refs.input.focus();
   }
 
+  handleKeyDown(e) {
+    if (e.keyCode === 13) {
+      this.save();
+    }
+  }
+
   render() {
     const { inputValue } = this.state;
     return (
@@ -91,6 +97,7 @@ class Home extends Component {
         <form className="form"
               onSubmit={e => e.preventDefault()}>
           <input onChange={e => this.setState({ inputValue: e.target.value })}
+                 onKeyDown={this.handleKeyDown.bind(this)}
                  ref="input"
                  value={inputValue}
                  className="input"
@@ -174,8 +181,14 @@ class ListItem extends Component {
     onSave(inputValue);
   }
 
+  handleKeyDown(e) {
+    if (e.keyCode === 13) {
+      this.handleSave(e);
+    }
+  }
+
   render() {
-    const { item, onToggle, isChecked, onDelete } = this.props;
+    const { item, onToggle, onDelete } = this.props;
     const { inputValue } = this.state;
     return (
       <li className={classnames('listItem', item.isChecked && 'strikethrough')}>
@@ -184,7 +197,8 @@ class ListItem extends Component {
           <input className="inputItem"
                  value={inputValue}
                  onBlur={this.handleSave.bind(this)}
-                 onChange={e => this.setState({ inputValue: e.target.value })}/>
+                 onChange={e => this.setState({ inputValue: e.target.value })}
+                 onKeyPress={this.handleKeyDown.bind(this)} />
           <div className="optionsContainer">
             <div className="innerCircleGreen" onClick={onToggle}>
               <FaCheck className={classnames('checkInactive', item.isChecked && 'checkActive')} />
